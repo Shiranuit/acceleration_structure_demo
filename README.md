@@ -3,7 +3,7 @@ Basic demo of an acceleration structure used for rendering thousands of entities
 
 This Demo shows the impact of acceleration structures for rendering / updating large amount of entities.
 
-Up to 10 000 000 of rectangles are drawn inside the camera view.
+Up to 10 000 000 rectangles are drawn inside the camera view.
 
 The naïve method is testing for each rectangle if the rectangle is inside the camera view before drawing it to the screen
 
