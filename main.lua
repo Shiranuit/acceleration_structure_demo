@@ -63,7 +63,11 @@ local function build_acceleration_structure(quad, rects, depth)
     end
   end
 
-  if depth == 0 then
+  if #_rects == 0 then
+    return nil
+  end
+
+  if depth == 0 or #_rects < 500 then
     if #_rects == 0 then
       return nil
     end
@@ -134,7 +138,7 @@ function love.load()
     }
   end
 
-  accelerated_struct = build_acceleration_structure({x = 0, y = 0, w = 1000000, h = 1000000}, rects, 8)
+  accelerated_struct = build_acceleration_structure({x = 0, y = 0, w = 1000000, h = 1000000}, rects, 16)
 end
 
 function love.draw()
