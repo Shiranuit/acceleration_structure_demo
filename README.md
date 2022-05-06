@@ -10,8 +10,8 @@ The naïve method is testing for each rectangle if the rectangle is inside the c
 The other method is using a basic quad tree as an acceleration structure which helps reducing the number of tests done on each rectagles per frames
 
 ## Requirements
+
 This demo is meant to be executed with [Love2d](https://love2d.org/) a Lua game framework
-Due to the large amount of struct allocated in memory, it is required to have at least 4Gb of RAM available
 
 ## Controls
 
