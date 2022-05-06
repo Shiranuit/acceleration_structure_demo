@@ -11,6 +11,7 @@ The other method is using a basic quad tree as an acceleration structure which h
 
 ## Requirements
 This demo is meant to be executed with [Love2d](https://love2d.org/) a Lua game framework
+Due to the large amount of struct allocated in memory, it is required to have at least 4Gb of RAM available
 
 ## Controls
 
