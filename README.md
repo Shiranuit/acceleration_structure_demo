@@ -17,7 +17,8 @@ This demo is meant to be executed with [Love2d](https://love2d.org/) a Lua game 
 
 - Move by dragging the mouse with the left click
 - Zoom using the scroll wheel or the up and down arrows
-- Press B to switch activate / deactivate the usage of acceleration structure
+- Press F to switch activate / deactivate the usage of acceleration structure
+- Press B to switch show / hide the regions boundaries of the acceleration structure
 
 ## Note
 
