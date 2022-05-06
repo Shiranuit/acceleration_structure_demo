@@ -1,5 +1,6 @@
 local rects = {}
 
+local totalRectangles = 10000000
 local width, height = 800, 600
 local offsetX, offsetY = 500000, 500000
 local scale = 1
@@ -121,7 +122,7 @@ local accelerated_struct
 function love.load()
   love.window.setMode(width, height)
 
-  for i=1, 10000000 do
+  for i=1, totalRectangles do
     rects[i] = {
       x = math.random(0, 1000000),
       y = math.random(0, 1000000),
@@ -154,9 +155,9 @@ function love.draw()
   love.graphics.line(width/2-20, height/2, width/2+20, height/2)
 
   love.graphics.setColor(0, 0, 0)
-  love.graphics.rectangle('fill', 0, 0, 100, 60)
+  love.graphics.rectangle('fill', 0, 0, 200, 60)
   love.graphics.setColor(1, 1, 1)
-  love.graphics.print('Time: '..tostring(math.floor((stop-start)*10000+0.5)/10000)..'s', 0, 0)
+  love.graphics.print('Time per frame: '..tostring(math.floor((stop-start)*10000000+0.5)/10000000)..'s', 0, 0)
   love.graphics.print('FPS: '..tostring(fps), 0, 20)
   love.graphics.print('Rects: '..tostring(rectCount), 0, 40)
 end
