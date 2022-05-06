@@ -1,6 +1,6 @@
 local rects = {}
 
-local totalRectangles = 10000000 -- Total number of rectangles to create
+local totalRectangles = 1000000 -- Total number of rectangles to create
 local width, height = 800, 600 -- Window size
 local offsetX, offsetY = totalRectangles / 20, totalRectangles / 20
 local scale = 1
@@ -11,14 +11,16 @@ local view = {
   w = width,
   h = height
 }
+
 local fast = false
+local showBoundaries = false
 
 -- Returns true if two rectangles intersect
 local function rectIntersects(rect1, rect2)
-  if  rect1.x == rect2.x
-    or rect1.y == rect2.y
-    or rect1.x + rect1.w == rect2.x + rect2.w
-    or rect1.y + rect1.h == rect2.y + rect2.h
+  if rect1.x == rect2.x + rect2.w
+    or rect1.y == rect2.y + rect2.h
+    or rect1.x + rect1.w == rect2.x
+    or rect1.y + rect1.h == rect2.y
   then
     return false
   end
@@ -32,6 +34,13 @@ local function rectIntersects(rect1, rect2)
   end
 
   return true
+end
+
+local function rectContains(rect1, rect2)
+  return rect2.x + rect2.w < rect1.x + rect1.w
+     and rect2.x > rect1.x
+     and rect2.y > rect1.y
+     and rect2.y + rect2.h < rect1.y + rect1.h
 end
 
 -- Sort a list from [start] to [stop] based on the result of the comparison function
@@ -150,8 +159,9 @@ local function draw_acceleration_structure(struct, rects, view)
     return 0 -- No need to draw anything, the region is not in the field of view
   end
 
+  local structFullyVisible = rectContains(view, structOffset)
   -- If the region contains sub regions, draw them
-  if struct.childs then
+  if not structFullyVisible and struct.childs then
     local rectCount = 0
     for i=1, #struct.childs do
       rectCount = rectCount + draw_acceleration_structure(struct.childs[i], rects, view)
@@ -159,7 +169,12 @@ local function draw_acceleration_structure(struct, rects, view)
     return rectCount
   else
     -- Draw each rectangle in the region
-    return draw_rects(rects, view, struct.start, struct.stop)
+    if structFullyVisible then
+      -- The struct if fully visible so there is no need to test if rectangles are in the view
+      return draw_rects(rects, nil, struct.start, struct.stop)
+    else
+      return draw_rects(rects, view, struct.start, struct.stop)
+    end
   end
   return 0
 end
@@ -181,7 +196,7 @@ function love.load()
     }
   end
 
-  accelerated_struct = build_acceleration_structure({x = 0, y = 0, w = totalRectangles / 10, h = totalRectangles / 10, start=1, stop=#rects}, rects, 24)
+  accelerated_struct = build_acceleration_structure({x = 0, y = 0, w = totalRectangles / 10, h = totalRectangles / 10, start=1, stop=#rects}, rects, 16)
 end
 
 -- Draws the boundaries of the accelerated structure recursively
@@ -201,12 +216,11 @@ local function draw_boundaries(struct, point, view)
   end
 
   -- Only draw the boundaries if the point is inside the struct
-  if (structOffset.x <= point.x and structOffset.y <= point.y and structOffset.x + structOffset.w >= point.x and structOffset.y + structOffset.h >= point.y) then
-    if struct.childs then
-      for i=1, #struct.childs do
-        draw_boundaries(struct.childs[i], point, view)
-      end
+  if struct.childs and not rectContains(view, structOffset) then
+    for i=1, #struct.childs do
+      draw_boundaries(struct.childs[i], point, view)
     end
+  else
     love.graphics.rectangle('line', structOffset.x, structOffset.y, structOffset.w, structOffset.h)
   end
 end
@@ -229,10 +243,12 @@ function love.draw()
   love.graphics.line(width/2, height/2-20, width/2, height/2+20)
   love.graphics.line(width/2-20, height/2, width/2+20, height/2)
 
-  -- Draw acceleration_structure boundaries that are visible and where the cursor is located
-  -- local x, y = love.mouse.getPosition()
-  -- love.graphics.setColor(1, 1, 1)
-  -- draw_boundaries(accelerated_struct, {x = x, y = y}, view)
+  if showBoundaries then
+    -- Draw acceleration_structure boundaries that are visible and where the cursor is located
+    local x, y = love.mouse.getPosition()
+    love.graphics.setColor(1, 1, 1)
+    draw_boundaries(accelerated_struct, {x = x, y = y}, view)
+  end
 
   love.graphics.setColor(0, 0, 0)
   love.graphics.rectangle('fill', 0, 0, 200, 80)
@@ -275,9 +291,13 @@ function love.wheelmoved( dx, dy )
 end
 
 function love.keypressed(key, scancode, isrepeat)
-  if key == 'b' then
+  if key == 'f' then
     fast = not fast
   end
+  if key == 'b' then
+    showBoundaries = not showBoundaries
+  end
+
   if key == 'down' then
     love.wheelmoved(0, -1)
   elseif key == 'up' then
