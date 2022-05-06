@@ -1,6 +1,6 @@
 local rects = {}
 
-local totalRectangles = 1000000
+local totalRectangles = 10000000
 local width, height = 800, 600
 local offsetX, offsetY = totalRectangles / 20, totalRectangles / 20
 local scale = 1
