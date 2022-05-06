@@ -17,3 +17,7 @@ This demo is meant to be executed with [Love2d](https://love2d.org/) a Lua game 
 - Move by dragging the mouse with the left click
 - Zoom using the scroll wheel
 - Press B to switch activate / deactivate the usage of acceleration structure
+
+## Note
+
+The demo can take a bit of time to boot since there are 10 000 000 struct allocated in memory
