@@ -16,13 +16,7 @@ Due to the large amount of struct allocated in memory, it is required to have at
 ## Controls
 
 - Move by dragging the mouse with the left click
-- Zoom using the scroll wheel
+- Zoom using the scroll wheel or the up and down arrows
 - Press B to switch activate / deactivate the usage of acceleration structure
-
-## Note
-
-The demo can take a bit of time to boot since there are 10 000 000 struct allocated in memory
-
-Draw Calls could be batched to reduce GPU Overhead also if rectangles were the same size they could be instanced, but that not the main point of this demo.
 
 ![image](https://user-images.githubusercontent.com/19224148/167047059-6656bd0a-71c3-4381-9d49-5b2958868e16.png)
