@@ -19,4 +19,8 @@ This demo is meant to be executed with [Love2d](https://love2d.org/) a Lua game 
 - Zoom using the scroll wheel or the up and down arrows
 - Press B to switch activate / deactivate the usage of acceleration structure
 
+## Note
+
+If the demo is not starting and crashes with a memory error, you may want to reduce the total number of rectangles in the code
+
 ![image](https://user-images.githubusercontent.com/19224148/167047059-6656bd0a-71c3-4381-9d49-5b2958868e16.png)

@@ -1,7 +1,7 @@
 local rects = {}
 
-local totalRectangles = 10000000
-local width, height = 800, 600
+local totalRectangles = 10000000 -- Total number of rectangles to create
+local width, height = 800, 600 -- Window size
 local offsetX, offsetY = totalRectangles / 20, totalRectangles / 20
 local scale = 1
 local mousePressed = false
