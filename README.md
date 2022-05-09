@@ -24,4 +24,4 @@ This demo is meant to be executed with [Love2d](https://love2d.org/) a Lua game 
 
 If the demo is not starting and crashes with a memory error, you may want to reduce the total number of rectangles in the code
 
-![image](https://user-images.githubusercontent.com/19224148/167047059-6656bd0a-71c3-4381-9d49-5b2958868e16.png)
+![image](https://user-images.githubusercontent.com/19224148/167372028-1ea01830-18de-4f1e-ae36-cb4a3e6b2b63.png)
